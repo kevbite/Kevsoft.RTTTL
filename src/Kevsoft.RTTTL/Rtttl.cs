@@ -86,6 +86,13 @@ namespace Kevsoft.RTTTL
                 current = current[1..];
             }
 
+            bool dotted = false;
+            if (!current.IsEmpty && current[0] == '.')
+            {
+                dotted = true;
+                current = current[1..];
+            }
+            
             Scale? scale = null;
             var possibleScales = Enum.GetValues<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
             if (!current.IsEmpty && possibleScales.Contains(current[0]))
@@ -96,13 +103,6 @@ namespace Kevsoft.RTTTL
                 }
 
                 scale = parsedScale;
-                current = current[1..];
-            }
-
-            bool dotted = false;
-            if (!current.IsEmpty && current[0] == '.')
-            {
-                dotted = true;
                 current = current[1..];
             }
 

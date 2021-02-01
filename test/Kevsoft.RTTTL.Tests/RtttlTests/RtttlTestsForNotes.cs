@@ -127,14 +127,14 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
         [InlineData(" a5 ", Pitch.A, null, Scale.Five, false)]
         [InlineData(" 8a5 ", Pitch.A, Duration.Eight, Scale.Five, false)]
         [InlineData(" 8a. ", Pitch.A, Duration.Eight, null, true)]
-        [InlineData(" a5. ", Pitch.A, null, Scale.Five, true)]
+        [InlineData(" a.5 ", Pitch.A, null, Scale.Five, true)]
         [InlineData(" a. ", Pitch.A, null, null, true)]
         [InlineData(" a# ", Pitch.ASharp, null, null, false)]
         [InlineData(" 8a# ", Pitch.ASharp, Duration.Eight, null, false)]
         [InlineData(" a#5 ", Pitch.ASharp, null, Scale.Five, false)]
         [InlineData(" 8a#5 ", Pitch.ASharp, Duration.Eight, Scale.Five, false)]
         [InlineData(" 8a#. ", Pitch.ASharp, Duration.Eight, null, true)]
-        [InlineData(" a#5. ", Pitch.ASharp, null, Scale.Five, true)]
+        [InlineData(" a#.5 ", Pitch.ASharp, null, Scale.Five, true)]
         [InlineData(" a#. ", Pitch.ASharp, null, null, true)]
         public void OnlySingleNotesWithSpaces(string note, Pitch pitch, Duration? duration, Scale? scale, bool dotted)
         {
