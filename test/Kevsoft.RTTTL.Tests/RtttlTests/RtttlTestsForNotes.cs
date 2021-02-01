@@ -120,5 +120,19 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
             result.Should().Be(false);
             rtttl.Should().BeNull();
         }
+        
+        [Theory]
+        [InlineData("p#")]
+        [InlineData("e#")]
+        [InlineData("b#")]
+        public void OnlySingleInvalidNotePitchSharpText(string note)
+        {
+            var result = Rtttl.TryParse($"::{note}", out var rtttl);
+
+            using var _ = new AssertionScope();
+            result.Should().Be(false);
+            rtttl.Should().BeNull();
+        }
+
     }
 }
