@@ -60,7 +60,7 @@ namespace Kevsoft.RTTTL
         private static bool TryParseNote(ReadOnlySpan<char> current, [MaybeNullWhen(returnValue: false)] out Note note)
         {
             note = null;
-
+            current = current.Trim();
             var indexOfStartPitch = current.IndexOfAny(new Span<char>("pcdefgab".ToCharArray()));
 
             if (indexOfStartPitch == -1 || !TryParseNoteDuration(current[..indexOfStartPitch], out var duration))
