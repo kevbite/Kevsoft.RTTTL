@@ -133,6 +133,24 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
             result.Should().Be(false);
             rtttl.Should().BeNull();
         }
+        
+        [Theory]
+        [InlineData("pjunk")]
+        [InlineData("p4junk")]
+        [InlineData("p4.junk")]
+        [InlineData("p.junk")]
+        [InlineData("c#junk")]
+        [InlineData("c#4junk")]
+        [InlineData("c#4.junk")]
+        [InlineData("c#.junk")]
+        public void OnlySingleInvalidNoteWithTrailingJunkText(string note)
+        {
+            var result = Rtttl.TryParse($"::{note}", out var rtttl);
+
+            using var _ = new AssertionScope();
+            result.Should().Be(false);
+            rtttl.Should().BeNull();
+        }
 
     }
 }

@@ -70,7 +70,6 @@ namespace Kevsoft.RTTTL
 
             current = current[indexOfStartPitch..];
 
-
             if (!PitchMap.TryGetValue(current[0], out var pitch))
             {
                 return false;
@@ -104,8 +103,14 @@ namespace Kevsoft.RTTTL
             if (!current.IsEmpty && current[0] == '.')
             {
                 dotted = true;
+                current = current[1..];
             }
 
+            if (!current.IsEmpty)
+            {
+                return false;
+            }
+            
             note = new Note(pitch, duration, scale, dotted);
 
             return true;
