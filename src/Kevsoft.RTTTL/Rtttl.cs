@@ -41,20 +41,7 @@ namespace Kevsoft.RTTTL
             var parsedNotes = new List<Note>();
             while (!text.IsEmpty)
             {
-                var indexOfNext = text.IndexOf(',');
-
-
-                ReadOnlySpan<char> current;
-                if (indexOfNext is -1)
-                {
-                    current = text[..text.Length];
-                    text = ReadOnlySpan<char>.Empty;
-                }
-                else
-                {
-                    current = text[..indexOfNext];
-                    text = text[(indexOfNext + 1)..];
-                }
+                text = ConsumeToAndEatDelimiter(text, ',', out var current);
 
                 if (!TryParseNote(current, out var note))
                 {
@@ -107,20 +94,8 @@ namespace Kevsoft.RTTTL
 
             while (!text.IsEmpty)
             {
-                var indexOfNext = text.IndexOf(',');
-
-                ReadOnlySpan<char> current;
-                if (indexOfNext is -1)
-                {
-                    current = text[..text.Length];
-                    text = ReadOnlySpan<char>.Empty;
-                }
-                else
-                {
-                    current = text[..indexOfNext];
-                    text = text[(indexOfNext + 1)..];
-                }
-
+                text = ConsumeToAndEatDelimiter(text, ',', out var current);
+         
                 if (!TryParseSettingKeyValue(current, settings, out settings))
                 {
                     return false;
@@ -129,6 +104,24 @@ namespace Kevsoft.RTTTL
 
             rtttlSettings = settings;
             return true;
+        }
+        
+        private static ReadOnlySpan<char> ConsumeToAndEatDelimiter(ReadOnlySpan<char> text, char delimiter, out ReadOnlySpan<char> value)
+        {
+            var indexOfNext = text.IndexOf(delimiter);
+            
+            if (indexOfNext is -1)
+            {
+                value = text[..text.Length];
+                text = ReadOnlySpan<char>.Empty;
+            }
+            else
+            {
+                value = text[..indexOfNext];
+                text = text[(indexOfNext + 1)..];
+            }
+
+            return text;
         }
 
         private static bool TryParseSettingKeyValue(ReadOnlySpan<char> current, RtttlSettings settings,
