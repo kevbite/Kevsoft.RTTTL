@@ -32,7 +32,7 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
                     Pitch = expectedPitch
                 });
         }
-        
+
         [Theory]
         [InlineData("1p", Pitch.Pause, Duration.One)]
         [InlineData("2p", Pitch.Pause, Duration.Two)]
@@ -59,7 +59,7 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
                     Duration = expectedDuration
                 });
         }
-        
+
         [Theory]
         [InlineData("p4", Pitch.Pause, Scale.Four)]
         [InlineData("p5", Pitch.Pause, Scale.Five)]
@@ -82,7 +82,7 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
                     Scale = expectedScale
                 });
         }
-        
+
         [Theory]
         [InlineData("p.", Pitch.Pause)]
         [InlineData("c#.", Pitch.CSharp)]
@@ -99,7 +99,28 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
                     Dotted = true
                 });
         }
-        
+
+        [Fact]
+        public void OnlyMultipleNotes()
+        {
+            var notes = "a,2e,d#,b4,2a4,2e.";
+            var result = Rtttl.TryParse($"::{notes}", out var rtttl);
+
+            using var _ = new AssertionScope();
+            result.Should().Be(true);
+            rtttl!.Notes.Should().HaveCount(6)
+                .And.BeEquivalentTo(new[]
+                    {
+                        new Note(Pitch.A, null, null, false),
+                        new Note(Pitch.E, Duration.Two, null, false),
+                        new Note(Pitch.DSharp, null, null, false),
+                        new Note(Pitch.B, null, Scale.Four, false),
+                        new Note(Pitch.A, Duration.Two, Scale.Four, false),
+                        new Note(Pitch.E, Duration.Two, null, true)
+                    },
+                    options => options.WithStrictOrdering());
+        }
+
         [Theory]
         [InlineData("h")]
         [InlineData("i")]
@@ -120,7 +141,7 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
             result.Should().Be(false);
             rtttl.Should().BeNull();
         }
-        
+
         [Theory]
         [InlineData("p#")]
         [InlineData("e#")]
@@ -133,7 +154,7 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
             result.Should().Be(false);
             rtttl.Should().BeNull();
         }
-        
+
         [Theory]
         [InlineData("pjunk")]
         [InlineData("p4junk")]
@@ -151,6 +172,5 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
             result.Should().Be(false);
             rtttl.Should().BeNull();
         }
-
     }
 }
