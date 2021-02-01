@@ -86,7 +86,7 @@ namespace Kevsoft.RTTTL
                 current = current[1..];
             }
 
-            bool dotted = false;
+            var dotted = false;
             if (!current.IsEmpty && current[0] == '.')
             {
                 dotted = true;
@@ -94,8 +94,7 @@ namespace Kevsoft.RTTTL
             }
             
             Scale? scale = null;
-            var possibleScales = Enum.GetValues<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
-            if (!current.IsEmpty && possibleScales.Contains(current[0]))
+            if (!current.IsEmpty && PossibleScales.Contains(current[0]))
             {
                 if (!TryParseScale(current[..1], out var parsedScale))
                 {
@@ -144,6 +143,8 @@ namespace Kevsoft.RTTTL
             ['a'] = Pitch.A,
             ['b'] = Pitch.B
         };
+
+        private static readonly HashSet<char> PossibleScales = Enum.GetValues<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
 
         private static bool TryParseRtttlSettings(ReadOnlySpan<char> text,
             [MaybeNullWhen(returnValue: false)] out RtttlSettings rtttlSettings)
@@ -246,77 +247,5 @@ namespace Kevsoft.RTTTL
         public string Name { get; }
         public RtttlSettings Settings { get; }
         public IReadOnlyCollection<Note> Notes { get; }
-    }
-
-    public class Note
-    {
-        public Pitch Pitch { get; }
-        public Duration? Duration { get; }
-        public Scale? Scale { get; }
-        public bool Dotted { get; }
-
-        public Note(Pitch pitch, Duration? duration, Scale? scale, bool dotted)
-        {
-            Pitch = pitch;
-            Duration = duration;
-            Scale = scale;
-            Dotted = dotted;
-        }
-    }
-
-    public enum Pitch
-    {
-        Pause,
-        A,
-        ASharp,
-        B,
-        C,
-        CSharp,
-        D,
-        DSharp,
-        E,
-        F,
-        FSharp,
-        G,
-        GSharp
-    }
-
-    public record RtttlSettings(Duration Duration, Scale Scale, byte BeatsPerMinute)
-    {
-        public const Duration DefaultDuration = Duration.Four;
-        public const Scale DefaultScale = Scale.Six;
-        public const byte DefaultBeatsPerMinute = 63;
-        public const char Separator = ':';
-
-        public static RtttlSettings Default()
-        {
-            var duration = DefaultDuration;
-            var scale = DefaultScale;
-            var beatsPerMinute = DefaultBeatsPerMinute;
-
-            return new RtttlSettings(
-                duration,
-                scale,
-                beatsPerMinute
-            );
-        }
-    }
-
-    public enum Duration
-    {
-        One = 1,
-        Two = 2,
-        Four = 4,
-        Eight = 8,
-        Sixteen = 16,
-        ThirtyTwo = 32
-    }
-
-    public enum Scale
-    {
-        Four = 4,
-        Five = 5,
-        Six = 6,
-        Seven = 7
     }
 }
