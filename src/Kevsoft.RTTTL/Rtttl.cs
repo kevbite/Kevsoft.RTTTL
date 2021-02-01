@@ -43,12 +43,18 @@ namespace Kevsoft.RTTTL
             {
                 var indexOfNext = text.IndexOf(',');
 
-                if (indexOfNext == -1)
-                {
-                    indexOfNext = text.Length;
-                }
 
-                var current = text[..indexOfNext];
+                ReadOnlySpan<char> current;
+                if (indexOfNext is -1)
+                {
+                    current = text[..text.Length];
+                    text = ReadOnlySpan<char>.Empty;
+                }
+                else
+                {
+                    current = text[..indexOfNext];
+                    text = text[(indexOfNext + 1)..];
+                }
 
                 if (!TryParseNote(current, out var note))
                 {
@@ -57,14 +63,6 @@ namespace Kevsoft.RTTTL
 
                 parsedNotes.Add(note);
 
-                if (indexOfNext == text.Length)
-                {
-                    text = ReadOnlySpan<char>.Empty;
-                }
-                else
-                {
-                    text = text[(indexOfNext + 1)..];
-                }
             }
             
             notes = parsedNotes.AsReadOnly();
@@ -111,25 +109,21 @@ namespace Kevsoft.RTTTL
             {
                 var indexOfNext = text.IndexOf(',');
 
-                if (indexOfNext == -1)
+                ReadOnlySpan<char> current;
+                if (indexOfNext is -1)
                 {
-                    indexOfNext = text.Length;
-                }
-
-                var current = text[..indexOfNext];
-
-                if (!TryParseSettingKeyValue(current, settings, out settings))
-                {
-                    return false;
-                }
-
-                if (indexOfNext == text.Length)
-                {
+                    current = text[..text.Length];
                     text = ReadOnlySpan<char>.Empty;
                 }
                 else
                 {
+                    current = text[..indexOfNext];
                     text = text[(indexOfNext + 1)..];
+                }
+
+                if (!TryParseSettingKeyValue(current, settings, out settings))
+                {
+                    return false;
                 }
             }
 
