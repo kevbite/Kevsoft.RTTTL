@@ -98,10 +98,16 @@ namespace Kevsoft.RTTTL
                 }
 
                 scale = parsedScale;
+                current = current[1..];
             }
 
+            bool dotted = false;
+            if (!current.IsEmpty && current[0] == '.')
+            {
+                dotted = true;
+            }
 
-            note = new Note(pitch, duration, scale);
+            note = new Note(pitch, duration, scale, dotted);
 
             return true;
         }
@@ -243,12 +249,14 @@ namespace Kevsoft.RTTTL
         public Pitch Pitch { get; }
         public Duration? Duration { get; }
         public Scale? Scale { get; }
+        public bool Dotted { get; }
 
-        public Note(Pitch pitch, Duration? duration, Scale? scale)
+        public Note(Pitch pitch, Duration? duration, Scale? scale, bool dotted)
         {
             Pitch = pitch;
             Duration = duration;
             Scale = scale;
+            Dotted = dotted;
         }
     }
 

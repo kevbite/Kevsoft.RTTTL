@@ -82,5 +82,22 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
                     Scale = expectedScale
                 });
         }
+        
+        [Theory]
+        [InlineData("p.", Pitch.Pause)]
+        [InlineData("c#.", Pitch.CSharp)]
+        public void OnlySingleNoteWithPitchAndDotted(string note, Pitch expectedPitch)
+        {
+            var result = Rtttl.TryParse($"::{note}", out var rtttl);
+
+            using var _ = new AssertionScope();
+            result.Should().Be(true);
+            rtttl!.Notes.Should().HaveCount(1)
+                .And.BeEquivalentTo(new
+                {
+                    Pitch = expectedPitch,
+                    Dotted = true
+                });
+        }
     }
 }
