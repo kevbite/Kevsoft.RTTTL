@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Kevsoft.RTTTL
 {
@@ -27,7 +28,7 @@ namespace Kevsoft.RTTTL
             if (!TryParseRtttlSettings(text[..endOfSettings], out var rtttlSettings))
                 return false;
 
-            if (!TryParseNotes(text[(endOfSettings+1)..], out var notes))
+            if (!TryParseNotes(text[(endOfSettings + 1)..], out var notes))
                 return false;
 
             rtttl = new Rtttl(name, rtttlSettings, notes);
@@ -35,7 +36,8 @@ namespace Kevsoft.RTTTL
             return true;
         }
 
-        private static bool TryParseNotes(ReadOnlySpan<char> text, [MaybeNullWhen(returnValue: false)] out IReadOnlyCollection<Note> notes)
+        private static bool TryParseNotes(ReadOnlySpan<char> text,
+            [MaybeNullWhen(returnValue: false)] out IReadOnlyCollection<Note> notes)
         {
             notes = null;
             var parsedNotes = new List<Note>();
@@ -49,40 +51,88 @@ namespace Kevsoft.RTTTL
                 }
 
                 parsedNotes.Add(note);
-
             }
-            
+
             notes = parsedNotes.AsReadOnly();
             return true;
         }
 
-        private static bool TryParseNote(ReadOnlySpan<char> current, [MaybeNullWhen(returnValue: false)]out Note note)
+        private static bool TryParseNote(ReadOnlySpan<char> current, [MaybeNullWhen(returnValue: false)] out Note note)
         {
             note = null;
-            if (PitchMap.TryGetValue(current.ToString(), out var pitch))
+
+            var indexOfStartPitch = current.IndexOfAny(new Span<char>("pcdefgab".ToCharArray()));
+
+            var durationText = current[..indexOfStartPitch];
+            if (!TryParseNoteDuration(durationText, out var duration))
             {
-                note = new Note(pitch);
-                return true;
+                return false;
             }
 
-            return false;
+            current = current[indexOfStartPitch..];
+
+
+            if (!PitchMap.TryGetValue(current[0], out var pitch))
+            {
+                return false;
+            }
+
+            current = current[1..];
+
+            if (!current.IsEmpty && current[0] is '#')
+            {
+                if (!TrySharpen(pitch, out pitch))
+                {
+                    return false;
+                }
+                current = current[1..];
+            }
+
+            Scale? scale = null;
+            var possibleScales = Enum.GetValues<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
+            if (!current.IsEmpty && possibleScales.Contains(current[0]))
+            {
+                if (!TryParseScale(current[..1], out var parsedScale))
+                {
+                    return false;
+                }
+
+                scale = parsedScale;
+            }
+
+
+            note = new Note(pitch, duration, scale);
+
+            return true;
         }
 
-        private static readonly IDictionary<string, Pitch> PitchMap = new Dictionary<string, Pitch>
+        private static bool TrySharpen(Pitch value, out Pitch sharpenedPitch)
         {
-            ["p"] = Pitch.Pause,
-            ["c"] = Pitch.C,
-            ["c#"] = Pitch.CSharp,
-            ["d"] = Pitch.D,
-            ["d#"] = Pitch.DSharp,
-            ["e"] = Pitch.E,
-            ["f"] = Pitch.F,
-            ["f#"] = Pitch.FSharp,
-            ["g"] = Pitch.G,
-            ["g#"] = Pitch.GSharp,
-            ["a"] = Pitch.A,
-            ["a#"] = Pitch.ASharp,
-            ["b"] = Pitch.B
+            var sharpened = value switch
+            {
+                Pitch.C => Pitch.CSharp,
+                Pitch.D => Pitch.DSharp,
+                Pitch.F =>  Pitch.FSharp,
+                Pitch.G =>  Pitch.GSharp,
+                Pitch.A => Pitch.ASharp,
+                _ => (Pitch?)null
+            };
+
+            sharpenedPitch = sharpened ?? value;
+            
+            return sharpened.HasValue;
+        }
+
+        private static readonly IDictionary<char, Pitch> PitchMap = new Dictionary<char, Pitch>
+        {
+            ['p'] = Pitch.Pause,
+            ['c'] = Pitch.C,
+            ['d'] = Pitch.D,
+            ['e'] = Pitch.E,
+            ['f'] = Pitch.F,
+            ['g'] = Pitch.G,
+            ['a'] = Pitch.A,
+            ['b'] = Pitch.B
         };
 
         private static bool TryParseRtttlSettings(ReadOnlySpan<char> text,
@@ -95,7 +145,7 @@ namespace Kevsoft.RTTTL
             while (!text.IsEmpty)
             {
                 text = ConsumeToAndEatDelimiter(text, ',', out var current);
-         
+
                 if (!TryParseSettingKeyValue(current, settings, out settings))
                 {
                     return false;
@@ -105,20 +155,21 @@ namespace Kevsoft.RTTTL
             rtttlSettings = settings;
             return true;
         }
-        
-        private static ReadOnlySpan<char> ConsumeToAndEatDelimiter(ReadOnlySpan<char> text, char delimiter, out ReadOnlySpan<char> value)
+
+        private static ReadOnlySpan<char> ConsumeToAndEatDelimiter(ReadOnlySpan<char> text, char delimiter,
+            out ReadOnlySpan<char> value)
         {
-            var indexOfNext = text.IndexOf(delimiter);
-            
-            if (indexOfNext is -1)
+            var indexOfDelimiter = text.IndexOf(delimiter);
+
+            if (indexOfDelimiter is -1)
             {
                 value = text[..text.Length];
                 text = ReadOnlySpan<char>.Empty;
             }
             else
             {
-                value = text[..indexOfNext];
-                text = text[(indexOfNext + 1)..];
+                value = text[..indexOfDelimiter];
+                text = text[(indexOfDelimiter + 1)..];
             }
 
             return text;
@@ -135,25 +186,50 @@ namespace Kevsoft.RTTTL
 
             if (key is {Length: 1})
             {
-                if (key[0] == 'd' && Enum.TryParse<Duration>(new string(value), out var duration) &&
-                    Enum.IsDefined(duration))
+                if (key[0] == 'd' && TryParseNoteDuration(value, out var duration) && duration.HasValue)
                 {
-                    valueOut = settings with {Duration = duration};
+                    valueOut = settings with {Duration = duration.Value};
                     return true;
                 }
-                if (key[0] == 'o' && Enum.TryParse<Scale>(new string(value), out var scale) &&
-                    Enum.IsDefined(scale))
+
+                if (key[0] == 'o' && TryParseScale(value, out var scale))
                 {
                     valueOut = settings with {Scale = scale};
                     return true;
                 }
+
                 if (key[0] == 'b' && byte.TryParse(value, out var bpm) && bpm != 0)
                 {
                     valueOut = settings with {BeatsPerMinute = bpm};
                     return true;
                 }
             }
-            
+
+            return false;
+        }
+
+        private static bool TryParseScale(ReadOnlySpan<char> value, out Scale scale)
+        {
+            return Enum.TryParse(new string(value), out scale) &&
+                Enum.IsDefined(scale);
+        }
+
+        private static bool TryParseNoteDuration(ReadOnlySpan<char> value, out Duration? duration)
+        {
+            duration = null;
+
+            if (value.IsEmpty)
+            {
+                return true;
+            }
+
+            if (Enum.TryParse<Duration>(new string(value), out var parsed) &&
+                Enum.IsDefined(parsed))
+            {
+                duration = parsed;
+                return true;
+            }
+
             return false;
         }
 
@@ -165,10 +241,14 @@ namespace Kevsoft.RTTTL
     public class Note
     {
         public Pitch Pitch { get; }
+        public Duration? Duration { get; }
+        public Scale? Scale { get; }
 
-        public Note(Pitch pitch)
+        public Note(Pitch pitch, Duration? duration, Scale? scale)
         {
             Pitch = pitch;
+            Duration = duration;
+            Scale = scale;
         }
     }
 
@@ -201,7 +281,7 @@ namespace Kevsoft.RTTTL
             var duration = DefaultDuration;
             var scale = DefaultScale;
             var beatsPerMinute = DefaultBeatsPerMinute;
-            
+
             return new RtttlSettings(
                 duration,
                 scale,
