@@ -99,5 +99,26 @@ namespace Kevsoft.RTTTL.Tests.RtttlTests
                     Dotted = true
                 });
         }
+        
+        [Theory]
+        [InlineData("h")]
+        [InlineData("i")]
+        [InlineData("j")]
+        [InlineData("k")]
+        [InlineData("x")]
+        [InlineData("y")]
+        [InlineData("z")]
+        [InlineData("0")]
+        [InlineData("1")]
+        [InlineData("2")]
+        [InlineData("3")]
+        public void OnlySingleInvalidNotePitchText(string note)
+        {
+            var result = Rtttl.TryParse($"::{note}", out var rtttl);
+
+            using var _ = new AssertionScope();
+            result.Should().Be(false);
+            rtttl.Should().BeNull();
+        }
     }
 }

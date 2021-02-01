@@ -63,8 +63,7 @@ namespace Kevsoft.RTTTL
 
             var indexOfStartPitch = current.IndexOfAny(new Span<char>("pcdefgab".ToCharArray()));
 
-            var durationText = current[..indexOfStartPitch];
-            if (!TryParseNoteDuration(durationText, out var duration))
+            if (indexOfStartPitch == -1 || !TryParseNoteDuration(current[..indexOfStartPitch], out var duration))
             {
                 return false;
             }
