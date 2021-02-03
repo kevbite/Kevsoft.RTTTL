@@ -3,11 +3,13 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Kevsoft.RTTTL
 {
-    public record RtttlSettings(Duration Duration, Scale Scale, byte BeatsPerMinute)
+    public sealed record RtttlSettings(Duration Duration, Scale Scale, byte BeatsPerMinute)
     {
-        public const Duration DefaultDuration = Duration.Four;
-        public const Scale DefaultScale = Scale.Six;
-        public const byte DefaultBeatsPerMinute = 63;
+        internal const Duration DefaultDuration = Duration.Four;
+        internal const Scale DefaultScale = Scale.Six;
+        internal const byte DefaultBeatsPerMinute = 63;
+        internal const int MillisecondsPerMinute = 60000;
+
         public static RtttlSettings Default()
         {
             var duration = DefaultDuration;

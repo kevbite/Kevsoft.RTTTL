@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Kevsoft.RTTTL
 {
-    public class Rtttl
+    public sealed class Rtttl
     {
         public const char Separator = ':';
 
-        private Rtttl(string name, RtttlSettings settings, IReadOnlyCollection<Note> notes)
+        public Rtttl(string name, RtttlSettings settings, IReadOnlyCollection<Note> notes)
         {
             Name = name;
             Settings = settings;
@@ -59,11 +59,33 @@ namespace Kevsoft.RTTTL
             return true;
         }
 
+        public void Play(IRtttlPlayer player)
+        {
+            var beatEvery = (double)RtttlSettings.MillisecondsPerMinute / Settings.BeatsPerMinute;
+            
+            TimeSpan CalculateDuration(Duration noteDuration, bool isDotted) {
+                var duration = (beatEvery * 4) / (int)noteDuration;
+                var prolonged = isDotted ? (duration / 2) : 0;
+                return TimeSpan.FromMilliseconds(duration + prolonged);
+            }
+            
+            foreach (var note in Notes)
+            {
+                var duration = CalculateDuration(
+                    note.Duration ?? Settings.Duration, note.Dotted);
 
+                player.PlayNote(note.Pitch, note.Scale ?? Settings.Scale, duration);
+            }
+        }
       
 
         public string Name { get; }
         public RtttlSettings Settings { get; }
         public IReadOnlyCollection<Note> Notes { get; }
+    }
+
+    public interface IRtttlPlayer
+    {
+        void PlayNote(Pitch pitch, Scale scale, TimeSpan duration);
     }
 }
