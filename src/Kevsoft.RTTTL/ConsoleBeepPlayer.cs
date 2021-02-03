@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Kevsoft.RTTTL
 {
@@ -6,7 +7,14 @@ namespace Kevsoft.RTTTL
     {
         protected override void Play(double frequency, TimeSpan duration)
         {
-            Console.Beep((int)frequency, duration.Milliseconds);
+            if (frequency == 0)
+            {
+                Thread.Sleep(duration);
+            }
+            else
+            {
+                Console.Beep((int) frequency, duration.Milliseconds);
+            }
         }
     }
 }
