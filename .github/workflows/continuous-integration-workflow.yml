@@ -21,7 +21,35 @@ jobs:
       run: dotnet pack --configuration Release -p:Version=${{ env.VERSION }} --no-build --verbosity normal
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish --configuration Release -p:Version=${{ env.VERSION }} --no-build --verbosity normal ./samples/ConsoleBeep
+    - name: Zip
+      run: zip -r ConsoleBeepExample.zip ./samples/ConsoleBeep/bin/Release/net5.0-windows/win-x64/publish/
     - name: NuGet.Org push
       if: github.ref == 'refs/heads/main'
       run: dotnet nuget push ./src/Kevsoft.RTTTL/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
       run: dotnet nuget push ./src/Kevsoft.RTTTL.Console/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
+    - name: Create Release
+      id: create_release
+      if: github.ref == 'refs/heads/main'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
+        body: |
+          Release ${{ env.VERSION }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./ConsoleBeepExample.zip
+        asset_name: ConsoleBeepExample.zip
+        asset_content_type: application/zip

@@ -3,11 +3,22 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0-windows</TargetFramework>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Kevsoft.RTTTL.Console\Kevsoft.RTTTL.Console.csproj" />
       <ProjectReference Include="..\..\src\Kevsoft.RTTTL\Kevsoft.RTTTL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="README.md" />
+      <Content Include="README.md" />
+      <None Remove="simpsons.txt" />
+      <Content Include="simpsons.txt" />
     </ItemGroup>
 
 </Project>
