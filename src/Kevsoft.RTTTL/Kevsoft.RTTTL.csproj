@@ -5,6 +5,7 @@
         <NoWarn>$(NoWarn);1591</NoWarn>
         <Title>Kevsoft.RTTTL</Title>
         <Authors>Kevin Smith</Authors>
+        <Description>The core NuGet package for parsing and playing RTTTL (Ring Tone Text Transfer Language) using .NET!</Description>
         <PackageProjectUrl>https://github.com/kevbite/Kevsoft.RTTTL</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/kevbite/Kevsoft.RTTTL.git</RepositoryUrl>

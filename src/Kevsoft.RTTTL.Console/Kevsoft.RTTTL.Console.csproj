@@ -6,6 +6,7 @@
         <TargetFramework>net5.0-windows</TargetFramework>
         <Title>Kevsoft.RTTTL.Console</Title>
         <Authors>Kevin Smith</Authors>
+        <Description>The NuGet package for playing RTTTL (Ring Tone Text Transfer Language) using the Console.Beep in .NET!</Description>
         <PackageProjectUrl>https://github.com/kevbite/Kevsoft.RTTTL</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/kevbite/Kevsoft.RTTTL.git</RepositoryUrl>
