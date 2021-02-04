@@ -6,7 +6,7 @@
         <Title>Kevsoft.RTTTL</Title>
         <Authors>Kevin Smith</Authors>
         <PackageProjectUrl>https://github.com/kevbite/Kevsoft.RTTTL</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/kevbite/Kevsoft.RTTTL/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/kevbite/Kevsoft.RTTTL.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>RTTTL;Ring;Tone;Transfer;Language;Parser;Player</PackageTags>
