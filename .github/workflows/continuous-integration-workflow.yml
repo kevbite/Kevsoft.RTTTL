@@ -24,7 +24,7 @@ jobs:
     - name: Publish
       run: dotnet publish --configuration Release -p:Version=${{ env.VERSION }} --no-build --verbosity normal ./samples/ConsoleBeep
     - name: Zip
-      run: zip -r ConsoleBeepExample.zip ./samples/ConsoleBeep/bin/Release/net5.0-windows/win-x64/publish/
+      run: zip -r -j ConsoleBeepExample.zip ./samples/ConsoleBeep/bin/Release/net5.0-windows/win-x64/publish/
     - name: NuGet.Org push
       if: github.ref == 'refs/heads/main'
       run: |
