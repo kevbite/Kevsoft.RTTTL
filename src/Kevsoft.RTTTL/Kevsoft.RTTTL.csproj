@@ -1,8 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <NoWarn>CA1416</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <NoWarn>$(NoWarn);CA1416;1591</NoWarn>
+        <Title>Kevsoft.RTTTL</Title>
+        <Authors>Kevin Smith</Authors>
+        <PackageProjectUrl>https://github.com/kevbite/Kevsoft.RTTTL</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/kevbite/Kevsoft.RTTTL/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/kevbite/Kevsoft.RTTTL.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>RTTTL;Ring;Tone;Transfer;Language;Parser;Player</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
 
 </Project>

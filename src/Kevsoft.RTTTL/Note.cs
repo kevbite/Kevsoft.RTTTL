@@ -126,7 +126,7 @@ namespace Kevsoft.RTTTL
             ['b'] = Pitch.B
         };
 
-        private static readonly HashSet<char> PossibleScales = Enum.GetValues<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
+        private static readonly HashSet<char> PossibleScales = Enum.GetValues(typeof(Scale)).OfType<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
 
     }
 }

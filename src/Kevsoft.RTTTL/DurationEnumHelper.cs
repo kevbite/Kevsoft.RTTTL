@@ -9,7 +9,7 @@ namespace Kevsoft.RTTTL
         {
             duration = null;
             if (Enum.TryParse<Duration>(new string(value), out var parsed) &&
-                Enum.IsDefined(parsed))
+                Enum.IsDefined(typeof(Duration), parsed))
             {
                 duration = parsed;
                 return true;
