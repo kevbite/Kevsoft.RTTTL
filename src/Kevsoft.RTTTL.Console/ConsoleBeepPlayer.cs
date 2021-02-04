@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace Kevsoft.RTTTL
+namespace Kevsoft.RTTTL.Console
 {
     public sealed class ConsoleBeepPlayer : FrequencyRtttlPlayer
     {
@@ -13,7 +13,7 @@ namespace Kevsoft.RTTTL
             }
             else
             {
-                Console.Beep((int) frequency, (int)duration.TotalMilliseconds);
+                System.Console.Beep((int) frequency, (int)duration.TotalMilliseconds);
             }
         }
     }

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <Title>Kevsoft.RTTTL.Console</Title>
+        <Authors>Kevin Smith</Authors>
+        <PackageProjectUrl>https://github.com/kevbite/Kevsoft.RTTTL</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/kevbite/Kevsoft.RTTTL.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>RTTTL;Ring;Tone;Transfer;Language;Parser;Player;Console</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Kevsoft.RTTTL\Kevsoft.RTTTL.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+</Project>
