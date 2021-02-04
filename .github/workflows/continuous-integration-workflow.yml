@@ -24,3 +24,4 @@ jobs:
     - name: NuGet.Org push
       if: github.ref == 'refs/heads/main'
       run: dotnet nuget push ./src/Kevsoft.RTTTL/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ./src/Kevsoft.RTTTL.Console/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
