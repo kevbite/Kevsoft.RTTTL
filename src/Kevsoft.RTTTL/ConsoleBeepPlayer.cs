@@ -13,7 +13,7 @@ namespace Kevsoft.RTTTL
             }
             else
             {
-                Console.Beep((int) frequency, duration.Milliseconds);
+                Console.Beep((int) frequency, (int)duration.TotalMilliseconds);
             }
         }
     }
