@@ -15,10 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="README.md" />
-      <Content Include="README.md" />
-      <None Remove="simpsons.txt" />
-      <Content Include="simpsons.txt" />
+      <None Include="README.md" CopyToPublishDirectory="Always" />
+      <None Include="simpsons.txt" CopyToPublishDirectory="Always" />
     </ItemGroup>
 
 </Project>
