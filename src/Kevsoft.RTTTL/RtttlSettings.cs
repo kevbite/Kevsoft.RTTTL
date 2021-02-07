@@ -50,8 +50,8 @@ namespace Kevsoft.RTTTL
                 valueOut = null;
                 var indexOfKeyValueSplit = current.IndexOf('=');
 
-                var key = current[..indexOfKeyValueSplit];
-                var value = current[(indexOfKeyValueSplit + 1)..];
+                var key = current.Slice(0, indexOfKeyValueSplit);
+                var value = current.Slice(indexOfKeyValueSplit + 1);
 
                 if (key is {Length: 1})
                 {
@@ -67,11 +67,23 @@ namespace Kevsoft.RTTTL
                         return true;
                     }
 
-                    if (key[0] == 'b' && byte.TryParse(value, out var bpm) && bpm != 0)
+
+                    if (key[0] == 'b')
                     {
-                        valueOut = settings with {BeatsPerMinute = bpm};
-                        return true;
+                        if (
+#if NETSTANDARD2_1
+                            byte.TryParse(value, out var bpm)
+#else
+                            byte.TryParse(new string(value.ToArray()), out var bpm)
+#endif
+                            && bpm != 0)
+                        {
+                            valueOut = settings with {BeatsPerMinute = bpm};
+
+                            return true;
+                        }
                     }
+                
                 }
 
                 return false;

@@ -21,16 +21,22 @@ namespace Kevsoft.RTTTL
             rtttl = null;
 
             var endOfName = text.IndexOf(Separator);
-            var name = new string(text[..endOfName]);
 
-            text = text[(endOfName + 1)..];
+            var readOnlySpan = text.Slice(0, endOfName);
+#if NETSTANDARD2_1
+            var name = new string(readOnlySpan);
+#else
+            var name = new string(readOnlySpan.ToArray());
+#endif
+
+            text = text.Slice(endOfName + 1);
 
             var endOfSettings = text.IndexOf(Separator);
 
-            if (!RtttlSettings.TryParse(text[..endOfSettings], out var rtttlSettings))
+            if (!RtttlSettings.TryParse(text.Slice(0, endOfSettings), out var rtttlSettings))
                 return false;
 
-            if (!TryParseNotes(text[(endOfSettings + 1)..], out var notes))
+            if (!TryParseNotes(text.Slice(endOfSettings + 1), out var notes))
                 return false;
 
             rtttl = new Rtttl(name, rtttlSettings, notes);
@@ -82,10 +88,5 @@ namespace Kevsoft.RTTTL
         public string Name { get; }
         public RtttlSettings Settings { get; }
         public IReadOnlyCollection<Note> Notes { get; }
-    }
-
-    public interface IRtttlPlayer
-    {
-        void PlayNote(Pitch pitch, Scale scale, TimeSpan duration);
     }
 }

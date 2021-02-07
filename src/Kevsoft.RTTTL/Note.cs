@@ -27,19 +27,19 @@ namespace Kevsoft.RTTTL
             current = current.Trim();
             var indexOfStartPitch = current.IndexOfAny(new Span<char>("pcdefgab".ToCharArray()));
 
-            if (indexOfStartPitch == -1 || !TryParseNoteDuration(current[..indexOfStartPitch], out var duration))
+            if (indexOfStartPitch == -1 || !TryParseNoteDuration(current.Slice(0, indexOfStartPitch), out var duration))
             {
                 return false;
             }
 
-            current = current[indexOfStartPitch..];
+            current = current.Slice(indexOfStartPitch);
 
             if (!PitchMap.TryGetValue(current[0], out var pitch))
             {
                 return false;
             }
 
-            current = current[1..];
+            current = current.Slice(1);
 
             if (!current.IsEmpty && current[0] is '#')
             {
@@ -47,26 +47,26 @@ namespace Kevsoft.RTTTL
                 {
                     return false;
                 }
-                current = current[1..];
+                current = current.Slice(1);
             }
 
             var dotted = false;
             if (!current.IsEmpty && current[0] == '.')
             {
                 dotted = true;
-                current = current[1..];
+                current = current.Slice(1);
             }
             
             Scale? scale = null;
             if (!current.IsEmpty && PossibleScales.Contains(current[0]))
             {
-                if (!ScaleEnumHelper.TryParseDefinedScale(current[..1], out var parsedScale))
+                if (!ScaleEnumHelper.TryParseDefinedScale(current.Slice(0,1), out var parsedScale))
                 {
                     return false;
                 }
 
                 scale = parsedScale;
-                current = current[1..];
+                current = current.Slice(1);
             }
 
             if (!current.IsEmpty)
@@ -126,7 +126,8 @@ namespace Kevsoft.RTTTL
             ['b'] = Pitch.B
         };
 
-        private static readonly HashSet<char> PossibleScales = Enum.GetValues(typeof(Scale)).OfType<Scale>().Select(x => $"{x:D}"[0]).ToHashSet();
+        private static readonly HashSet<char> PossibleScales =
+            new HashSet<char>(Enum.GetValues(typeof(Scale)).OfType<Scale>().Select(x => $"{x:D}"[0]));
 
     }
 }

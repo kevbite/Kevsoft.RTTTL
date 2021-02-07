@@ -11,13 +11,13 @@ namespace Kevsoft.RTTTL
 
             if (indexOfDelimiter is -1)
             {
-                value = text[..text.Length];
+                value = text.Slice(0, text.Length);
                 text = ReadOnlySpan<char>.Empty;
             }
             else
             {
-                value = text[..indexOfDelimiter];
-                text = text[(indexOfDelimiter + 1)..];
+                value = text.Slice(0, indexOfDelimiter);
+                text = text.Slice(indexOfDelimiter + 1);
             }
 
             return text;
