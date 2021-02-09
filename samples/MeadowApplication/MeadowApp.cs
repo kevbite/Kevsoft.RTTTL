@@ -38,7 +38,7 @@ namespace MeadowApplication
             while (true)
             {
                 var nextSong = PickRandomSong();
-                if (Rtttl.TryParse(nextSong.AsSpan(), out var rtttl))
+                if (Rtttl.TryParse(nextSong, out var rtttl))
                 {
                     rtttl.Play(new MeadowPwmPlayer(_pwmBuzzer));
                 }

@@ -15,7 +15,7 @@ namespace Kevsoft.RTTTL
             Settings = settings;
             Notes = notes;
         }
-
+        
         public static bool TryParse(ReadOnlySpan<char> text, [MaybeNullWhen(returnValue: false)] out Rtttl rtttl)
         {
             rtttl = null;
