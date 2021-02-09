@@ -1,21 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8D07600F-6EEC-4C99-8176-C6F7BAC89ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kevsoft.RTTTL", "src\Kevsoft.RTTTL\Kevsoft.RTTTL.csproj", "{EB269961-D7C5-49EC-81CA-2154AF3FC988}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kevsoft.RTTTL", "src\Kevsoft.RTTTL\Kevsoft.RTTTL.csproj", "{EB269961-D7C5-49EC-81CA-2154AF3FC988}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9382FDBE-C7AE-4C45-AD62-2F5AE8763A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kevsoft.RTTTL.Tests", "test\Kevsoft.RTTTL.Tests\Kevsoft.RTTTL.Tests.csproj", "{175DB9EA-9FEC-4E44-89CC-45EBE297D7CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kevsoft.RTTTL.Tests", "test\Kevsoft.RTTTL.Tests\Kevsoft.RTTTL.Tests.csproj", "{175DB9EA-9FEC-4E44-89CC-45EBE297D7CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBeep", "samples\ConsoleBeep\ConsoleBeep.csproj", "{5B228CFD-59E9-46D8-AA6E-DCD95A45BD66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBeep", "samples\ConsoleBeep\ConsoleBeep.csproj", "{5B228CFD-59E9-46D8-AA6E-DCD95A45BD66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{4CD73ECC-B62D-4192-9F2A-F9DBB4D6FCF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kevsoft.RTTTL.Console", "src\Kevsoft.RTTTL.Console\Kevsoft.RTTTL.Console.csproj", "{C5CE62F4-4104-431E-AD16-864A2B1D2B43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kevsoft.RTTTL.Console", "src\Kevsoft.RTTTL.Console\Kevsoft.RTTTL.Console.csproj", "{C5CE62F4-4104-431E-AD16-864A2B1D2B43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeadowApplication", "samples\MeadowApplication\MeadowApplication.csproj", "{D30BC447-D7C9-4497-A769-D0CC871C0C7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,9 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EB269961-D7C5-49EC-81CA-2154AF3FC988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -78,11 +77,36 @@ Global
 		{C5CE62F4-4104-431E-AD16-864A2B1D2B43}.Release|x64.Build.0 = Release|Any CPU
 		{C5CE62F4-4104-431E-AD16-864A2B1D2B43}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5CE62F4-4104-431E-AD16-864A2B1D2B43}.Release|x86.Build.0 = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|x86.Build.0 = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|x64.Build.0 = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|x64.Deploy.0 = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|x86.Build.0 = Release|Any CPU
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A}.Release|x86.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB269961-D7C5-49EC-81CA-2154AF3FC988} = {8D07600F-6EEC-4C99-8176-C6F7BAC89ADA}
 		{175DB9EA-9FEC-4E44-89CC-45EBE297D7CA} = {9382FDBE-C7AE-4C45-AD62-2F5AE8763A43}
 		{5B228CFD-59E9-46D8-AA6E-DCD95A45BD66} = {4CD73ECC-B62D-4192-9F2A-F9DBB4D6FCF0}
 		{C5CE62F4-4104-431E-AD16-864A2B1D2B43} = {8D07600F-6EEC-4C99-8176-C6F7BAC89ADA}
+		{D30BC447-D7C9-4497-A769-D0CC871C0C7A} = {4CD73ECC-B62D-4192-9F2A-F9DBB4D6FCF0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C9E3A30-C451-46D4-BBFF-AAD31B869AF1}
 	EndGlobalSection
 EndGlobal
