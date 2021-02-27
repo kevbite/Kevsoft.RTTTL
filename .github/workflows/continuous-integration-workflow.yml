@@ -34,6 +34,7 @@ jobs:
       run: |
         dotnet nuget push ./src/Kevsoft.RTTTL/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
         dotnet nuget push ./src/Kevsoft.RTTTL.Console/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
+        dotnet nuget push ./src/Kevsoft.RTTTL.Device.Gpio/bin/Release/*.nupkg --source NuGet.org --api-key ${{ secrets.NUGET_API_KEY }}
     - name: Create Release
       id: create_release
       if: github.ref == 'refs/heads/main'
