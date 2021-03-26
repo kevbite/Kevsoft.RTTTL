@@ -8,11 +8,6 @@ namespace Kevsoft.RTTTL.Device.Gpio
     {
         private readonly PwmChannel _pwmChannel;
 
-        public PwmChannelPlayer(int chip, int channel)
-            : this(PwmChannel.Create(chip, channel))
-        {
-        }
-
         public PwmChannelPlayer(PwmChannel pwmChannel) => _pwmChannel = pwmChannel;
 
         protected override void Play(double frequency, TimeSpan duration)

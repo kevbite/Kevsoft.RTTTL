@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <NoWarn>$(NoWarn);1591</NoWarn>
     <Title>Kevsoft.RTTTL.Device.Gpio</Title>
     <Authors>Kevin Smith</Authors>
     <Description>The NuGet package for playing RTTTL via GPIO Ports on Devices.</Description>
