@@ -5,13 +5,13 @@ namespace MeadowApplication
 {
     class Program
     {
-        static IApp? app;
+        static IApp? _app;
         public static void Main(string[] args)
         {
             if (args.Length > 0 && args[0] == "--exitOnDebug") return;
 
             // instantiate and run new meadow app
-            app = new MeadowApp();
+            _app = new MeadowApp();
 
             Thread.Sleep(Timeout.Infinite);
         }

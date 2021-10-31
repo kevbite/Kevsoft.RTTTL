@@ -1,8 +1,8 @@
-﻿using Meadow;
-using Meadow.Devices;
-using System;
+﻿using System;
 using System.Threading;
 using Kevsoft.RTTTL;
+using Meadow;
+using Meadow.Devices;
 using Meadow.Hardware;
 
 namespace MeadowApplication
